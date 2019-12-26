@@ -28,6 +28,9 @@ protocol BBBProtocol: AAAProtocol {
     // これはできる
 }
 
+protocol CCCProtocol: AnyObject {
+}
+
 protocol HaveHogeFlagProtocol: AnyObject {
     func hogeFlag() -> Bool
 }
@@ -40,6 +43,22 @@ extension HaveHogeFlagProtocol {
 protocol DDDProtocol: AAAProtocol, HaveHogeFlagProtocol {
     // これもできちゃう
 }
+
+// 警告
+//protocol GGGProtocol: UIViewController, BBBProtocol {
+//    // Redundant superclass constraint 'Self' : 'UIViewController'
+//}
+
+protocol HHHProtocol: UIViewController, CCCProtocol {
+    // これはOK、上記はBBBProtocolがUIVIewControllerにclass-onlyしてたから
+}
+
+// エラー extensionではprotocolはprotocolを適用できない
+//protocol GGGProtocol: UIViewController {
+//}
+//extension GGGProtocol: BBBProtocol {
+//    // Extension of protocol 'GGGProtocol' cannot have an inheritance clause
+//}
 
 
 
