@@ -9,9 +9,17 @@
 import UIKit
 
 class ViewController: UIViewController {
+    @IBOutlet weak var customButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let delegate: AAAProtocol!
     }
+    
+    @IBAction func tap(_ sender: Any) {
+    }
+    
 }
 
 extension ViewController: HaveHogeFlagProtocol {
@@ -22,10 +30,21 @@ extension ViewController: HaveHogeFlagProtocol {
 
 
 protocol AAAProtocol: UIViewController {
+    func buttonDidTap(next: UIViewController)
+}
+
+extension AAAProtocol {
+    func buttonDidTap(next: UIViewController) {
+        self.show(next, sender: nil)
+    }
 }
 
 protocol BBBProtocol: AAAProtocol {
     // これはできる
+}
+extension BBBProtocol {
+    func buttonDidTap(next: UIViewController) {
+    }
 }
 
 protocol CCCProtocol: AnyObject {
@@ -105,3 +124,67 @@ extension WorkZZZ {
     }
 }
 
+
+
+//////////////
+
+protocol AProtocol: UIViewController {
+    func aaa()
+}
+protocol BProtocol: AnyObject {
+    func bbb()
+}
+protocol CProtocol: AProtocol, BProtocol {
+}
+extension CProtocol {
+    func bbb() {
+        self.show(UIViewController(), sender: nil)
+    }
+}
+
+
+
+///////////
+
+protocol UIViewProtocol: UIView {
+}
+// Inheritance from non-protocol, non-class type 'String'
+// Type 'Self' constrained to non-protocol, non-class type 'String'
+//protocol StringProtocol: String {
+//}
+
+protocol NSObjectProtocol: NSObject {
+    // 可能
+}
+
+protocol UIViewControllerProtocol1: UIViewController {
+    // 可能
+}
+protocol UIViewControllerProtocol2: UIViewController {
+    // 可能
+}
+
+//protocol IntProtocol: Int {
+//}
+
+//protocol ArrayProtocol: Array {
+//    // 不可
+//}
+
+//protocol ZZZProtocol: UIViewProtocol, UIViewControllerProtocol {
+//
+//}
+
+protocol YYYProtocol: UIViewControllerProtocol1, UIViewControllerProtocol2 {
+}
+
+protocol XXXProtocol: UIViewController, UIViewControllerProtocol1 {
+    
+}
+
+protocol UIViewControllerProtocol3: UIViewControllerProtocol2 {
+}
+protocol UIViewControllerProtocol4: UIViewControllerProtocol1, UIViewControllerProtocol3 {
+}
+
+//class HogeHoge: String {}
